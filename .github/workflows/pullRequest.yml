@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Force Xcode 11
-        run: sudo xcode-select -switch /Applications/Xcode.app
+        run: sudo xcode-select -switch /Applications/Xcode_11.7.app
       - name: iOS build setup
         run: >-
           xcodebuild clean test -project GithubActionsConfiguration.xcodeproj
