@@ -1,5 +1,4 @@
-name: Pull Request
-
+name: iOS Test Workflow
 on:
   push:
     branches:
@@ -7,16 +6,27 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
-  build-and-test:
+  build:
+    name: Build and Test default scheme using iPhone/iPad simulator
     runs-on: macos-latest
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Select Xcode
-        run: sudo xcode-select -switch /Applications/Xcode.app
-
-      - name: Build and test
-        run: xcodebuild clean build test -project GithubActionsConfiguration.xcodeproj -scheme "CI" -sdk iphonesimulator -destination "platform=iOS Simulator,OS=13.5,name=iPhone 11" ONLY_ACTIVE_ARCH=NO CODE_SIGNING_REQUIRED=NO 
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Force Xcode 11
+        run: sudo xcode-select -switch /Applications/Xcode_11.7.app
+      - name: iOS build setup
+        run: >-
+          xcodebuild clean test -project GithubActionsConfiguration.xcodeproj
+          -scheme CI -destination 'platform=iOS Simulator,name=iPhone
+          11,OS=13.7'
+      - name: testing ... iPhone 11
+        run: >-
+          xcodebuild clean test -workspace TestApp.xcodeproj/project.xcworkspace
+          -scheme TestApp -destination 'platform=iOS Simulator,name=iPhone
+          11,OS=13.7'
+      - name: testing ... iPhone 11 Pro Max
+        run: >-
+          xcodebuild test -workspace TestApp.xcodeproj/project.xcworkspace
+          -scheme TestApp -destination 'platform=iOS Simulator,name=iPhone 11
+          Pro Max,OS=13.7'
