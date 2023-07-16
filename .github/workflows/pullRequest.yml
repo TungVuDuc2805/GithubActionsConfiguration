@@ -18,4 +18,5 @@ jobs:
       - name: iOS build setup
         run: >-
           xcodebuild clean test -project GithubActionsConfiguration.xcodeproj
-          -scheme CI -destination destinationspecifier
+          -scheme CI -destination generic/platform=iOS
+
